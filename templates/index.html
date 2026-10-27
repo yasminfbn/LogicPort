@@ -1,23 +1,38 @@
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="description" content="LogicPort: aprenda portas lógicas de forma interativa, simulando circuitos digitais e seus resultados.">
+    <meta
+        name="description"
+        content="LogicPort: aprenda portas lógicas de forma interativa, simulando circuitos digitais e seus resultados."
+    >
 
     <title>LogicPort | Simulador de Portas Lógicas</title>
-    <link rel="icon" type="image/png"
-      href="{{ url_for('static', filename='favicon.png') }}">
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='style.css') }}">
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='favicon.png') }}"
+    >
 
-    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+        defer
+    ></script>
 </head>
 
 <body>
+
+    <!-- Cabeçalho -->
     <header class="topo">
         <a class="marca" href="/" aria-label="LogicPort - Página inicial">
             <span class="icone-marca">ϟ</span>
@@ -29,7 +44,7 @@
         </a>
 
         <button type="button" id="botaoTema" class="botao-tema">
-            Tema claro
+            Tema Escuro
         </button>
     </header>
 
@@ -37,6 +52,7 @@
 
         <!-- Painel de configuração -->
         <section class="painel configuracao">
+
             <div class="titulo-secao">
                 <span class="icone">☷</span>
 
@@ -72,7 +88,8 @@
                             class="valor ativo"
                             data-entrada="entradaA"
                             data-valor="0"
-                            aria-pressed="true">
+                            aria-pressed="true"
+                        >
                             0
                         </button>
 
@@ -81,7 +98,8 @@
                             class="valor"
                             data-entrada="entradaA"
                             data-valor="1"
-                            aria-pressed="false">
+                            aria-pressed="false"
+                        >
                             1
                         </button>
                     </div>
@@ -101,7 +119,8 @@
                             class="valor ativo"
                             data-entrada="entradaB"
                             data-valor="0"
-                            aria-pressed="true">
+                            aria-pressed="true"
+                        >
                             0
                         </button>
 
@@ -110,7 +129,8 @@
                             class="valor"
                             data-entrada="entradaB"
                             data-valor="1"
-                            aria-pressed="false">
+                            aria-pressed="false"
+                        >
                             1
                         </button>
                     </div>
@@ -125,11 +145,48 @@
             <button
                 type="button"
                 id="btnCalcular"
-                class="botao-calcular">
+                class="botao-calcular"
+            >
                 <span>▷</span> Calcular resultado
             </button>
 
             <p id="mensagem" class="mensagem" role="status"></p>
+
+            <!-- Aplicação prática -->
+            <section class="aplicacao-pratica" aria-live="polite">
+
+                <div class="aplicacao-cabecalho">
+                    <span class="icone-aplicacao" aria-hidden="true">⌘</span>
+
+                    <div>
+                        <h3>Aplicação prática</h3>
+                        <p>Onde essa porta lógica é utilizada?</p>
+                    </div>
+                </div>
+
+                <div class="aplicacao-conteudo">
+                    <h4 id="tituloAplicacao">
+                        Sistema de controle de acesso
+                    </h4>
+
+                    <p id="textoAplicacao">
+                        A porta AND pode representar um sistema que libera
+                        o acesso somente quando duas condições necessárias
+                        são verdadeiras.
+                    </p>
+                </div>
+
+                <div class="aplicacao-exemplo">
+                    <span class="aplicacao-etiqueta">EXEMPLO DE APLICAÇÃO</span>
+
+                    <p id="detalheAplicacao">
+                        O usuário precisa estar autenticado e autorizado
+                        para entrar.
+                    </p>
+                </div>
+
+            </section>
+
         </section>
 
         <!-- Painel do circuito -->
@@ -161,15 +218,43 @@
 
                 </div>
 
-                <!-- Fios do circuito -->
+                <!-- Fios das entradas -->
                 <div class="fios">
                     <div class="fio fio-a"></div>
                     <div class="fio fio-b"></div>
                 </div>
 
-                <!-- Porta lógica selecionada -->
+                <!-- Desenho dinâmico da porta lógica -->
                 <div class="porta-visual" id="nomePorta">
-                    AND
+
+                    <svg
+                        id="desenhoPorta"
+                        class="desenho-porta"
+                        viewBox="0 0 140 100"
+                        role="img"
+                        aria-label="Porta lógica AND"
+                    >
+                        <path
+                            d="M20 30 H45 M20 70 H45"
+                            class="linha-porta"
+                        />
+
+                        <path
+                            d="M45 15 H65 A35 35 0 0 1 65 85 H45 Z"
+                            class="corpo-porta"
+                        />
+
+                        <path
+                            d="M100 50 H125"
+                            class="linha-porta"
+                        />
+
+                        <text x="12" y="24" class="rotulo-porta">A</text>
+                        <text x="12" y="64" class="rotulo-porta">B</text>
+                    </svg>
+
+                    <span class="nome-porta" id="textoPorta">AND</span>
+
                 </div>
 
                 <!-- Fio de saída -->
@@ -182,7 +267,8 @@
                         id="lampada"
                         class="lampada apagada"
                         role="img"
-                        aria-label="Lâmpada apagada">
+                        aria-label="Lâmpada apagada"
+                    >
                         <span></span>
                     </div>
 
@@ -204,6 +290,43 @@
                         Aguardando cálculo
                     </small>
                 </div>
+
+            </div>
+
+            <!-- Tabela-verdade automática -->
+            <div class="tabela-verdade">
+
+                <div class="titulo-secao">
+                    <span class="icone">▦</span>
+
+                    <div>
+                        <h2>Tabela-verdade</h2>
+                        <p>
+                            Confira todas as combinações de entradas
+                            e os resultados da porta selecionada.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="tabela-container">
+                    <table id="tabelaVerdade">
+                        <thead>
+                            <tr id="cabecalhoTabela">
+                                <th>Entrada A</th>
+                                <th id="cabecalhoB">Entrada B</th>
+                                <th>Saída</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="corpoTabelaVerdade">
+                            <!-- As combinações serão geradas pelo JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <p id="resumoTabela" class="legenda-tabela">
+                    0 = desligado · 1 = ligado
+                </p>
 
             </div>
 
@@ -301,10 +424,12 @@
                 </article>
 
             </div>
+
         </section>
 
     </main>
 
+    <!-- Rodapé -->
     <footer>
         <p>LogicPort — Transformando lógica em conhecimento.</p>
     </footer>
