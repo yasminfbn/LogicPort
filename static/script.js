@@ -120,18 +120,28 @@ function atualizarDesenhoPorta(tipo) {
     const yMid = 60;
 
     const desenhos = {
-        AND: `
-            <line class="linha-porta" x1="0" y1="${yA}" x2="42" y2="${yA}"/>
-            <line class="linha-porta" x1="0" y1="${yB}" x2="42" y2="${yB}"/>
-            <path class="corpo-porta"
-                d="M42 ${yA - 22}
-                   H80
-                   A22 22 0 0 1 80 ${yB + 22}
-                   H42 Z"/>
-            <line class="linha-porta" x1="118" y1="${yMid}" x2="160" y2="${yMid}"/>
-            <text class="rotulo-porta" x="4" y="${yA - 6}">A</text>
-            <text class="rotulo-porta" x="4" y="${yB - 6}">B</text>
-        `,
+            AND: `
+        <line class="linha-porta"
+            x1="0" y1="${yA}" x2="40" y2="${yA}"/>
+
+        <line class="linha-porta"
+            x1="0" y1="${yB}" x2="40" y2="${yB}"/>
+
+        <path class="corpo-porta"
+            d="M42 ${yA - 22}
+            H80
+            A22 22 0 0 1 80 ${yB + 22}
+            H42 Z"/>
+
+        <line class="linha-porta"
+            x1="118" y1="${yMid}" x2="160" y2="${yMid}"/>
+
+        <text class="rotulo-porta"
+            x="4" y="${yA - 6}">A</text>
+
+        <text class="rotulo-porta"
+            x="4" y="${yB - 6}">B</text>
+    `,
 
         OR: `
             <line class="linha-porta" x1="0" y1="${yA}" x2="44" y2="${yA}"/>
