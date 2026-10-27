@@ -1,0 +1,311 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description" content="LogicPort: aprenda portas lógicas de forma interativa, simulando circuitos digitais e seus resultados.">
+
+    <title>LogicPort | Simulador de Portas Lógicas</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='style.css') }}">
+
+    <script src="{{ url_for('static', filename='script.js') }}" defer></script>
+</head>
+
+<body>
+    <header class="topo">
+        <a class="marca" href="/" aria-label="LogicPort - Página inicial">
+            <span class="icone-marca">ϟ</span>
+
+            <span>
+                <strong>Logic<span>Port</span></strong>
+                <small>Simulador de Portas Lógicas</small>
+            </span>
+        </a>
+
+        <button type="button" id="botaoTema" class="botao-tema">
+            Tema claro
+        </button>
+    </header>
+
+    <main class="conteudo">
+
+        <!-- Painel de configuração -->
+        <section class="painel configuracao">
+            <div class="titulo-secao">
+                <span class="icone">☷</span>
+
+                <div>
+                    <h2>Configure o circuito</h2>
+                    <p>Escolha a porta lógica e defina as entradas.</p>
+                </div>
+            </div>
+
+            <label for="porta">Porta lógica</label>
+
+            <select id="porta">
+                <option value="AND">AND — E</option>
+                <option value="OR">OR — OU</option>
+                <option value="NOT">NOT — NÃO</option>
+                <option value="NAND">NAND — NÃO E</option>
+                <option value="NOR">NOR — NÃO OU</option>
+                <option value="XOR">XOR — OU exclusivo</option>
+                <option value="XNOR">XNOR — OU exclusivo negado</option>
+            </select>
+
+            <div class="titulo-entradas">Entradas</div>
+
+            <div class="entradas">
+
+                <!-- Entrada A -->
+                <div class="entrada-card">
+                    <label for="entradaA">Entrada A</label>
+
+                    <div class="seletor-valor">
+                        <button
+                            type="button"
+                            class="valor ativo"
+                            data-entrada="entradaA"
+                            data-valor="0"
+                            aria-pressed="true">
+                            0
+                        </button>
+
+                        <button
+                            type="button"
+                            class="valor"
+                            data-entrada="entradaA"
+                            data-valor="1"
+                            aria-pressed="false">
+                            1
+                        </button>
+                    </div>
+
+                    <small id="estadoA">Desligado</small>
+
+                    <input type="hidden" id="entradaA" value="0">
+                </div>
+
+                <!-- Entrada B -->
+                <div class="entrada-card" id="campoB">
+                    <label for="entradaB">Entrada B</label>
+
+                    <div class="seletor-valor">
+                        <button
+                            type="button"
+                            class="valor ativo"
+                            data-entrada="entradaB"
+                            data-valor="0"
+                            aria-pressed="true">
+                            0
+                        </button>
+
+                        <button
+                            type="button"
+                            class="valor"
+                            data-entrada="entradaB"
+                            data-valor="1"
+                            aria-pressed="false">
+                            1
+                        </button>
+                    </div>
+
+                    <small id="estadoB">Desligado</small>
+
+                    <input type="hidden" id="entradaB" value="0">
+                </div>
+
+            </div>
+
+            <button
+                type="button"
+                id="btnCalcular"
+                class="botao-calcular">
+                <span>▷</span> Calcular resultado
+            </button>
+
+            <p id="mensagem" class="mensagem" role="status"></p>
+        </section>
+
+        <!-- Painel do circuito -->
+        <section class="painel circuito-painel">
+
+            <div class="titulo-secao">
+                <span class="icone circuito-icone">⌘</span>
+
+                <div>
+                    <h2>Circuito lógico</h2>
+                    <p>Observe como as entradas influenciam a saída.</p>
+                </div>
+            </div>
+
+            <div class="circuito">
+
+                <!-- Valores das entradas -->
+                <div class="entradas-circuito">
+
+                    <div class="fio-entrada">
+                        <span>A</span>
+                        <div class="interruptor" id="visualA">0</div>
+                    </div>
+
+                    <div class="fio-entrada" id="visualEntradaB">
+                        <span>B</span>
+                        <div class="interruptor" id="visualB">0</div>
+                    </div>
+
+                </div>
+
+                <!-- Fios do circuito -->
+                <div class="fios">
+                    <div class="fio fio-a"></div>
+                    <div class="fio fio-b"></div>
+                </div>
+
+                <!-- Porta lógica selecionada -->
+                <div class="porta-visual" id="nomePorta">
+                    AND
+                </div>
+
+                <!-- Fio de saída -->
+                <div class="fio fio-saida"></div>
+
+                <!-- Lâmpada -->
+                <div class="area-lampada">
+
+                    <div
+                        id="lampada"
+                        class="lampada apagada"
+                        role="img"
+                        aria-label="Lâmpada apagada">
+                        <span></span>
+                    </div>
+
+                    <div class="base-lampada"></div>
+
+                    <p id="estadoLampada" aria-live="polite">
+                        Lâmpada apagada
+                    </p>
+
+                </div>
+
+                <!-- Resultado lógico -->
+                <div class="cartao-resultado">
+                    <span>Resultado</span>
+
+                    <strong id="resultado">?</strong>
+
+                    <small id="resumoResultado">
+                        Aguardando cálculo
+                    </small>
+                </div>
+
+            </div>
+
+            <!-- Explicação do resultado -->
+            <div class="explicacao">
+                <span class="icone-info">i</span>
+
+                <div>
+                    <h3>Como funciona?</h3>
+
+                    <p id="explicacao">
+                        Escolha uma porta lógica, configure as entradas
+                        e calcule para descobrir o resultado.
+                    </p>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Referência das portas lógicas -->
+        <section class="painel referencia">
+
+            <div class="titulo-secao">
+                <span class="icone">▤</span>
+
+                <div>
+                    <h2>Guia de portas lógicas</h2>
+                    <p>Conheça o comportamento de cada operação.</p>
+                </div>
+            </div>
+
+            <div class="grade-portas">
+
+                <article class="porta-card rosa">
+                    <span class="simbolo">∧</span>
+                    <h3>AND</h3>
+                    <small>E</small>
+                    <p>
+                        Retorna 1 somente quando todas as entradas são 1.
+                    </p>
+                </article>
+
+                <article class="porta-card azul">
+                    <span class="simbolo">∨</span>
+                    <h3>OR</h3>
+                    <small>OU</small>
+                    <p>
+                        Retorna 1 quando pelo menos uma entrada é 1.
+                    </p>
+                </article>
+
+                <article class="porta-card amarelo">
+                    <span class="simbolo">¬</span>
+                    <h3>NOT</h3>
+                    <small>NÃO</small>
+                    <p>
+                        Inverte o valor da entrada: 0 vira 1 e 1 vira 0.
+                    </p>
+                </article>
+
+                <article class="porta-card vermelho">
+                    <span class="simbolo">⊼</span>
+                    <h3>NAND</h3>
+                    <small>NÃO E</small>
+                    <p>
+                        Inverte o resultado da operação AND.
+                    </p>
+                </article>
+
+                <article class="porta-card ciano">
+                    <span class="simbolo">⊽</span>
+                    <h3>NOR</h3>
+                    <small>NÃO OU</small>
+                    <p>
+                        Retorna 1 somente quando todas as entradas são 0.
+                    </p>
+                </article>
+
+                <article class="porta-card roxo">
+                    <span class="simbolo">⊕</span>
+                    <h3>XOR</h3>
+                    <small>OU exclusivo</small>
+                    <p>
+                        Retorna 1 quando as entradas são diferentes.
+                    </p>
+                </article>
+
+                <article class="porta-card roxo">
+                    <span class="simbolo">⊙</span>
+                    <h3>XNOR</h3>
+                    <small>OU exclusivo negado</small>
+                    <p>
+                        Retorna 1 quando as entradas são iguais.
+                    </p>
+                </article>
+
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>LogicPort — Transformando lógica em conhecimento.</p>
+    </footer>
+
+</body>
+</html>
